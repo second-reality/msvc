@@ -33,3 +33,4 @@ ENV WINEDEBUG=-all
 RUN wine --version
 RUN wine64 cmake --version
 RUN wine64 python -c 'print("hello world")'
+RUN chmod 777 -Rv /opt/wine
