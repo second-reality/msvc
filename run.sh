@@ -10,4 +10,4 @@ tmp=$(mktemp -d)
 trap "rm -rf $tmp" EXIT
 
 all_id=$(id -G | tr ' ' '\n' | sed -e 's/^/--group-add /g' | tr '\n' ' ')
-docker run -it --rm=true -u $UID $all_id msvc ls
+docker run -it --rm=true -u $UID $all_id msvc "$@"
