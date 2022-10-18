@@ -37,3 +37,5 @@ rm -rf /tmp/*
 RUN chmod 777 -R ${WINEPREFIX}/drive_c/users
 
 ADD vs_prompt.sh /usr/bin
+
+RUN apt update && apt install -y strace
