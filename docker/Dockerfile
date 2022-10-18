@@ -33,3 +33,5 @@ cd msvc-wine &&\
 python3 ./vsdownload.py --accept-license --dest ${WINEPREFIX}/drive_c/vs/ &&\
 ./install.sh ${WINEPREFIX}/drive_c/vs/ &&\
 rm -rf /tmp/*
+
+ADD vs_prompt.sh /usr/bin
