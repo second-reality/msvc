@@ -32,8 +32,12 @@ export LIB="$vs_path/kits/10/lib/10.0.19041.0/um/$arch/;${LIB:-}"
 export LIB="$vs_path/kits/10/lib/10.0.19041.0/ucrt/$arch/;${LIB:-}"
 #stdio.h
 export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/ucrt/;${INCLUDE:-}"
+# winerror.h
+export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/shared/;${INCLUDE:-}"
 #vsruntime.h
 export INCLUDE="$vs_path/vc/tools/msvc/14.33.31629/include/;${INCLUDE:-}"
+# windows.h
+export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/um/;${INCLUDE:-}"
 
 export LIBPATH="$LIB"
 export EXTERNAL_INCLUDE="$INCLUDE"
