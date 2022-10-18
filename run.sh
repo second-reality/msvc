@@ -6,7 +6,7 @@ script_dir=$(dirname $(readlink -f $0))
 
 build_container()
 {
-    docker build $script_dir/docker -t msvc
+    docker build $script_dir/arm64 -t msvc_arm64
 }
 
 create_wineprefix()
@@ -35,7 +35,7 @@ run_container()
         -v $HOME:$HOME \
         -w $(pwd) \
         -e WINEPREFIX=$wineprefix \
-        msvc "$@"
+        msvc_arm64 "$@"
 }
 
 wineprefix=$(mktemp -d)
