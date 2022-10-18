@@ -9,7 +9,7 @@ $script_dir/run.sh vs_prompt.sh wine cmake llvm -G Ninja \
     -DCMAKE_C_COMPILER=cl.exe -DCMAKE_CXX_COMPILER=cl.exe -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CROSSCOMPILING=ON \
     -DCMAKE_C_COMPILER_WORKS=true -DCMAKE_CXX_COMPILER_WORKS=true \
-    -DLLVM_TABLEGEN=x64/llvm-tblgen.exe \
-    -DLLVM_NM=x64/llvm-nm.exe
+    -DLLVM_TABLEGEN=Z:$(pwd)/x64/llvm-tblgen.exe \
+    -DLLVM_NM=Z:/$(pwd)/x64/llvm-nm.exe
 
 $script_dir/run.sh vs_prompt.sh wine ninja "$@"
