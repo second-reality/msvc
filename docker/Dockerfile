@@ -15,7 +15,6 @@ ENV WINEPREFIX=/opt/wine/
 RUN wine64 wineboot --init && \
     while pgrep wineserver > /dev/null; do sleep 1; done
 RUN wine --version
-ENV WINEDEBUG=-all
 ENV WINEPATH=
 
 RUN apt update && apt install -y wget unzip
