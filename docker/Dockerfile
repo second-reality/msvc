@@ -34,7 +34,7 @@ python3 ./vsdownload.py --accept-license --dest ${WINEPREFIX}/drive_c/vs/ &&\
 ./install.sh ${WINEPREFIX}/drive_c/vs/ &&\
 rm -rf /tmp/*
 # allow anyone to write in folder directory
-RUN chmod 777 -R ${WINEPREFIX}/drive_c/users
+RUN chmod 777 -R ${WINEPREFIX}/drive_c/users ${WINEPREFIX}/drive_c/windows/temp
 
 ADD vs_prompt.sh /usr/bin
 
