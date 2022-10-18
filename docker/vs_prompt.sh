@@ -22,7 +22,8 @@ vs_path="C:/vs"
 
 #cl.exe
 export WINEPATH="$vs_path/vc/tools/msvc/14.33.31629/bin/Hostx64/$arch;${WINEPATH:-}"
-#rc.exe
+#rc.exe 
+# always use x64 binaries
 export WINEPATH="$vs_path/kits/10/bin/10.0.19041.0/x64;${WINEPATH:-}"
 # LIBCMT.lib
 export LIB="$vs_path/vc/tools/msvc/14.33.31629/lib/$arch/;${LIB:-}"
