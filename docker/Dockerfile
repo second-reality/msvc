@@ -2,12 +2,6 @@ FROM debian:bullseye
 
 RUN apt update && apt install -y git python3 python3-pip
 RUN apt update && apt install -y msitools python3-simplejson python3-six ca-certificates winbind
-RUN cd /tmp && \
-git clone https://github.com/mstorsjo/msvc-wine &&\
-cd msvc-wine &&\
-python3 ./vsdownload.py --accept-license --dest /opt/msvc/ &&\
-./install.sh /opt/msvc &&\
-rm -rf /tmp/*
 RUN dpkg --add-architecture i386
 RUN apt update && apt install -y gnupg2 software-properties-common wget
 RUN apt-add-repository https://dl.winehq.org/wine-builds/debian/
@@ -33,3 +27,9 @@ ENV WINEDEBUG=-all
 RUN wine --version
 RUN wine64 cmake --version
 RUN wine64 python -c 'print("hello world")'
+RUN cd /tmp && \
+git clone https://github.com/mstorsjo/msvc-wine &&\
+cd msvc-wine &&\
+python3 ./vsdownload.py --accept-license --dest ${WINEPREFIX}/drive_c/vs/ &&\
+./install.sh ${WINEPREFIX}/drive_c/vs/ &&\
+rm -rf /tmp/*
