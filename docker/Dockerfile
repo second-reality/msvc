@@ -26,7 +26,7 @@ ENV WINEPATH=C:/cmake/bin;${WINEPATH}
 RUN wine cmake --version
 
 RUN cd ${WINEPREFIX}/drive_c/ && mkdir python && cd python &&\
-wget -q https://www.nuget.org/api/v2/package/python/3.8.0 -O p.zip &&\
+wget -q https://www.nuget.org/api/v2/package/python/3.10.8 -O p.zip &&\
 unzip p.zip
 ENV WINEPATH=C:/python/tools;${WINEPATH}
 RUN wine python --version
