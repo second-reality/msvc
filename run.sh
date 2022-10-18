@@ -11,6 +11,8 @@ build_container()
 
 create_wineprefix()
 {
+    # wine insists to own its prefix, but in container, root owns it.
+    # so we fake a user prefix by symlinking the original.
     path=$1; shift
 
     mkdir -p $path
