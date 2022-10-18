@@ -8,7 +8,9 @@ die()
     exit 1
 }
 
-arch=arm64
+[ $# -gt 1 ] || die "usage: arch <command> (arch can be 'x64' or 'arm64')"
+
+arch=$1;shift
 
 #we can't use vcvarsall.bat for 2 reasons:
 # - some part is not understood by wine cmd command
@@ -18,29 +20,37 @@ arch=arm64
 # The goal is to set env var, so cl.exe can find what it needs
 # EXTERNAL_INCLUDE, INCLUDE, LIB, LIBPATH (for link.exe)
 
-vs_path="C:/vs"
+VC_VER=14.33.31629
+SDK_VER=10.0.19041.0
 
-#cl.exe
-export WINEPATH="$vs_path/vc/tools/msvc/14.33.31629/bin/Hostx64/$arch;${WINEPATH:-}"
-#rc.exe 
+VS_ROOT_DIR="vs"
+VS_LINUX_PREFIX=/opt/wine/drive_c/$VS_ROOT_DIR
+VS_WINDOWS_PREFIX="C:/$VS_ROOT_DIR"
+
+prepend()
+{
+    local env_var=$1; shift
+    local file_to_find=$1; shift
+    local path=$1; shift
+
+    [ -f "$VS_LINUX_PREFIX/$path/$file_to_find" ] || die "can't find $file_to_find in $path"
+    export $env_var="$VS_WINDOWS_PREFIX/$path;${!env_var:-}"
+}
+
+prepend WINEPATH    cl.exe          vc/tools/msvc/${VC_VER}/bin/Hostx64/$arch
 # always use x64 binaries
-export WINEPATH="$vs_path/kits/10/bin/10.0.19041.0/x64;${WINEPATH:-}"
-# LIBCMT.lib
-export LIB="$vs_path/vc/tools/msvc/14.33.31629/lib/$arch/;${LIB:-}"
-# kernel32.lib
-export LIB="$vs_path/kits/10/lib/10.0.19041.0/um/$arch/;${LIB:-}"
-# libucrt.lib
-export LIB="$vs_path/kits/10/lib/10.0.19041.0/ucrt/$arch/;${LIB:-}"
-#stdio.h
-export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/ucrt/;${INCLUDE:-}"
-# winerror.h
-export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/shared/;${INCLUDE:-}"
-#vsruntime.h
-export INCLUDE="$vs_path/vc/tools/msvc/14.33.31629/include/;${INCLUDE:-}"
-# windows.h
-export INCLUDE="$vs_path/kits/10/include/10.0.19041.0/um/;${INCLUDE:-}"
+prepend WINEPATH    rc.exe          kits/10/bin/${SDK_VER}/x64
+prepend LIB         LIBCMT.lib      vc/tools/msvc/${VC_VER}/lib/$arch
+prepend LIB         kernel32.lib    kits/10/lib/${SDK_VER}/um/$arch
+prepend LIB         libucrt.lib     kits/10/lib/${SDK_VER}/ucrt/$arch
+prepend INCLUDE     stdio.h         kits/10/include/${SDK_VER}/ucrt
+prepend INCLUDE     winerror.h      kits/10/include/${SDK_VER}/shared
+prepend INCLUDE     limits.h        vc/tools/msvc/${VC_VER}/include
+prepend INCLUDE     windows.h       kits/10/include/${SDK_VER}/um
 
+# used by link.exe to detect lib, when LIB is used by cl.exe
 export LIBPATH="$LIB"
+# can be used to identify "system" headers (warnings, ...)
 export EXTERNAL_INCLUDE="$INCLUDE"
 
 "$@"
