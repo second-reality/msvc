@@ -10,6 +10,14 @@ die()
 
 arch=x64
 
+#we can't use vcvarsall.bat for 2 reasons:
+# - some part is not understood by wine cmd command
+# - it uses registry to detect where windows sdk is installed
+#   since no installation is done, this is missing
+
+# The goal is to set env var, so cl.exe can find what it needs
+# EXTERNAL_INCLUDE, INCLUDE, LIB, LIBPATH (for link.exe)
+
 vs_path="C:/vs"
 
 #cl.exe
