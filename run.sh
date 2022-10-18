@@ -5,16 +5,38 @@ set -x
 
 script_dir=$(dirname $(readlink -f $0))
 
-docker build $script_dir/docker -t msvc
+build_container()
+{
+    docker build $script_dir/docker -t msvc
+}
 
-tmp=$(pwd)/prefix/
-mkdir -p $tmp
-trap "rm -rf $tmp" EXIT
+create_wineprefix()
+{
+    path=$1; shift
 
-for link in dosdevices  drive_c  system.reg  userdef.reg  user.reg;
-do
-    ln -s /opt/wine/$link $tmp/
-done
+    mkdir -p $path
+    trap "rm -rf $path" EXIT
 
-all_id=$(id -G | tr ' ' '\n' | sed -e 's/^/--group-add /g' | tr '\n' ' ')
-docker run -it --rm=true -u $UID $all_id -v $tmp:$tmp -e WINEPREFIX=$tmp/ msvc "$@"
+    for link in dosdevices  drive_c  system.reg  userdef.reg  user.reg;
+    do
+        ln -s /opt/wine/$link $path/
+    done
+}
+
+run_container()
+{
+    wineprefix=$1; shift
+
+    all_id=$(id -G | tr ' ' '\n' | sed -e 's/^/--group-add /g' | tr '\n' ' ')
+    docker run -it --rm=true -u $UID $all_id \
+        -v $wineprefix:$wineprefix \
+        -e WINEPREFIX=$wineprefix \
+        msvc "$@"
+}
+
+wineprefix=$(mktemp -d)
+trap "rm -rf $wineprefix" EXIT
+
+build_container
+create_wineprefix $wineprefix
+run_container $wineprefix "$@"
