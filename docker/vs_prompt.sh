@@ -34,6 +34,7 @@ prepend()
     local path=$1; shift
 
     [ -f "$VS_LINUX_PREFIX/$path/$file_to_find" ] || die "can't find $file_to_find in $path"
+    # example: export WINEPATH=C:/vs/path/to/bin;$WINEPATH"
     export $env_var="$VS_WINDOWS_PREFIX/$path;${!env_var:-}"
 }
 

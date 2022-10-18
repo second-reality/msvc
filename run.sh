@@ -32,6 +32,7 @@ run_container()
     docker run -it --rm=true -u $UID $all_id \
         -v $wineprefix:$wineprefix \
         -v $(pwd):$(pwd) \
+        -v $HOME:$HOME \
         -w $(pwd) \
         -e WINEPREFIX=$wineprefix \
         msvc "$@"
