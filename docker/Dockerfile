@@ -28,7 +28,7 @@ unzip *.zip && mv cmake*/* . && rm *.zip
 RUN cd ${WINEPREFIX}/drive_c/ && mkdir python && cd python &&\
 wget -q https://www.nuget.org/api/v2/package/python/3.8.0 -O p.zip &&\
 unzip p.zip
-ENV WINEPATH=C:/cmake/bin;C:/python/tools/;C:/windows/system32;C:/windows;C:/windows/system32/wbem;C:/windows/system32/WindowsPowershell/v1.0
+ENV WINEPATH=C:/cmake/bin;C:/python/tools/
 ENV WINEDEBUG=-all
 RUN wine --version
 RUN wine64 cmake --version
