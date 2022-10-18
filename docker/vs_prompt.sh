@@ -8,7 +8,7 @@ die()
     exit 1
 }
 
-arch=x64
+arch=arm64
 
 #we can't use vcvarsall.bat for 2 reasons:
 # - some part is not understood by wine cmd command
@@ -23,7 +23,7 @@ vs_path="C:/vs"
 #cl.exe
 export WINEPATH="$vs_path/vc/tools/msvc/14.33.31629/bin/Hostx64/$arch;${WINEPATH:-}"
 #rc.exe
-export WINEPATH="$vs_path/kits/10/bin/10.0.19041.0/$arch;${WINEPATH:-}"
+export WINEPATH="$vs_path/kits/10/bin/10.0.19041.0/x64;${WINEPATH:-}"
 # LIBCMT.lib
 export LIB="$vs_path/vc/tools/msvc/14.33.31629/lib/$arch/;${LIB:-}"
 # kernel32.lib
