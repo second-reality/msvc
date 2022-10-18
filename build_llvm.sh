@@ -10,7 +10,10 @@ llvm_root=$(pwd)
 # TODO: add possibility to switch to clang-cl
 compiler=cl.exe
 
-cmake_args="Z:${llvm_root}/llvm -GNinja -DCMAKE_C_COMPILER=$compiler -DCMAKE_CXX_COMPILER=$compiler -DCMAKE_BUILD_TYPE=Release"
+cmake_args="Z:${llvm_root}/llvm -GNinja
+            -DCMAKE_C_COMPILER=$compiler -DCMAKE_CXX_COMPILER=$compiler
+            -DCMAKE_BUILD_TYPE=Release
+            -DLLVM_ENABLE_PROJECTS=clang"
 run="$script_dir/run.sh vs_prompt.sh"
 
 mkdir -p x64
@@ -24,6 +27,7 @@ pushd arm64
 $run arm64 wine cmake $cmake_args \
     -DCMAKE_CROSSCOMPILING=ON \
     -DLLVM_TABLEGEN=Z:/${llvm_root}/x64/bin/llvm-tblgen.exe \
+    -DCLANG_TABLEGEN=Z:/${llvm_root}/x64/bin/clang-tblgen.exe \
     -DLLVM_NM=Z:/${llvm_root}/x64/bin/llvm-nm.exe
 $run arm64 wine ninja
 popd
