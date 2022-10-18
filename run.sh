@@ -7,7 +7,6 @@ script_dir=$(dirname $(readlink -f $0))
 build_container()
 {
     docker build $script_dir/docker -t msvc
-    clear
 }
 
 create_wineprefix()
