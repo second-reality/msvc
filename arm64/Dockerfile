@@ -4,15 +4,20 @@ RUN echo "deb-src http://deb.debian.org/debian/ bullseye main" >> /etc/apt/sourc
 
 RUN apt update && apt build-dep -y wine
 # needs make, clang, dlltool (from llvm) and lld
-RUN apt update && apt install -y clang build-essential llvm lld
+#RUN apt update && apt install -y clang build-essential llvm lld
 
-RUN apt update && apt install -y wget
+RUN apt update && apt install -y wget unzip
 
-ENV WINE_VERSION=7.19
+RUN cd /tmp && wget -q https://github.com/mstorsjo/llvm-mingw/releases/download/20220906/llvm-mingw-20220906-ucrt-ubuntu-18.04-aarch64.tar.xz && tar xvf *xz && rm *.xz
+ENV PATH=/tmp/llvm-mingw-20220906-ucrt-ubuntu-18.04-aarch64/bin:$PATH
+
+RUN which clang
+
+ENV WINE_VERSION=7.13
 RUN cd /tmp && echo "Download wine-${WINE_VERSION}..." && \
     wget -q https://github.com/wine-mirror/wine/archive/refs/tags/wine-${WINE_VERSION}.tar.gz && \
     tar xf wine-${WINE_VERSION}.tar.gz && cd wine-wine-${WINE_VERSION} && \
-    ./configure --prefix=/usr/ && \
+    CC=clang ./configure --with-mingw --prefix=/usr/ && \
     make -j$(nproc) &&\
     make -j$(nproc) install &&\
     rm -rf /tmp/*
