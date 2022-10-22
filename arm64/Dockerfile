@@ -68,3 +68,9 @@ wget -q https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/LL
 unzip *zip && rm *zip && rm bin/ucrtbase.dll # bad dll: is x86_64
 ENV WINEPATH=C:/llvm/bin;${WINEPATH}
 RUN wine C:/llvm/bin/clang.exe --version
+
+RUN cd ${WINEPREFIX}/drive_c/ && mkdir cmake && cd cmake && \
+wget -q https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-windows-arm64.zip &&\
+unzip *.zip && mv cmake*/* . && rm *.zip
+ENV WINEPATH=C:/cmake/bin;${WINEPATH}
+RUN wine cmake --version

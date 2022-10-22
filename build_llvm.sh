@@ -22,18 +22,18 @@ $run x64 wine cmake $cmake_args
 $run x64 wine ninja
 popd
 
-mkdir -p arm64
-pushd arm64
-# Setting CMAKE_CROSSCOMPILING from command line does not work, it's overriden
-# when configuring clang. And calls clang-ast-dump.exe which does not work.
-# Thus, we need a toolchain file to make it work.
-cat > arm64.cmake << EOF
-set(CMAKE_SYSTEM_NAME Windows)
-set(CMAKE_CROSSCOMPILING ON)
-set(LLVM_TABLEGEN Z:/${llvm_root}/x64/bin/llvm-tblgen.exe)
-set(CLANG_TABLEGEN Z:/${llvm_root}/x64/bin/clang-tblgen.exe)
-set(DLLVM_NM Z:/${llvm_root}/x64/bin/llvm-nm.exe)
-EOF
-$run arm64 wine cmake $cmake_args -DCMAKE_TOOLCHAIN_FILE=arm64.cmake
-$run arm64 wine ninja
-popd
+#mkdir -p arm64
+#pushd arm64
+## Setting CMAKE_CROSSCOMPILING from command line does not work, it's overriden
+## when configuring clang. And calls clang-ast-dump.exe which does not work.
+## Thus, we need a toolchain file to make it work.
+#cat > arm64.cmake << EOF
+#set(CMAKE_SYSTEM_NAME Windows)
+#set(CMAKE_CROSSCOMPILING ON)
+#set(LLVM_TABLEGEN Z:/${llvm_root}/x64/bin/llvm-tblgen.exe)
+#set(CLANG_TABLEGEN Z:/${llvm_root}/x64/bin/clang-tblgen.exe)
+#set(DLLVM_NM Z:/${llvm_root}/x64/bin/llvm-nm.exe)
+#EOF
+#$run arm64 wine cmake $cmake_args -DCMAKE_TOOLCHAIN_FILE=arm64.cmake
+#$run arm64 wine ninja
+#popd
