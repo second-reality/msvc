@@ -57,3 +57,12 @@ RUN wine python -c 'print("hello world")'
 RUN wine cmd /c "echo Hello World! ($(wine --version))"
 
 ADD vs_prompt.sh /usr/bin
+
+RUN apt update && apt install -y strace
+
+RUN cd ${WINEPREFIX}/drive_c && mkdir llvm && cd llvm &&\
+wget -q https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/LLVM-14.0.6-woa64.zip &&\
+unzip *zip && rm *zip && rm bin/ucrtbase.dll # bad dll: is x86_64
+ENV WINEPATH=C:/llvm/bin;${WINEPATH}
+#RUN wine C:/llvm/bin/clang --version
+
