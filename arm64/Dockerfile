@@ -16,7 +16,7 @@ ENV PATH=/tmp/llvm-mingw-20220906-ucrt-ubuntu-18.04-aarch64/bin:$PATH
 
 RUN which clang
 
-ENV WINE_VERSION=7.13
+ENV WINE_VERSION=7.19
 RUN cd /tmp && echo "Download wine-${WINE_VERSION}..." && \
     wget -q https://github.com/wine-mirror/wine/archive/refs/tags/wine-${WINE_VERSION}.tar.gz && \
     tar xf wine-${WINE_VERSION}.tar.gz && cd wine-wine-${WINE_VERSION} && \
@@ -67,5 +67,4 @@ RUN cd ${WINEPREFIX}/drive_c && mkdir llvm && cd llvm &&\
 wget -q https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/LLVM-14.0.6-woa64.zip &&\
 unzip *zip && rm *zip && rm bin/ucrtbase.dll # bad dll: is x86_64
 ENV WINEPATH=C:/llvm/bin;${WINEPATH}
-#RUN wine C:/llvm/bin/clang --version
-
+RUN wine C:/llvm/bin/clang.exe --version
