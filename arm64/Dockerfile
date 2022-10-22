@@ -4,6 +4,9 @@ RUN echo "deb-src http://deb.debian.org/debian/ bullseye main" >> /etc/apt/sourc
 
 RUN apt update && apt build-dep -y wine
 # needs make, clang, dlltool (from llvm) and lld
+# it seems to be broken with vanilla clang for now (hangs on first wineboot)
+# llvm-mingw is fine!
+# TODO: investigate
 #RUN apt update && apt install -y clang build-essential llvm lld
 
 RUN apt update && apt install -y wget unzip
@@ -27,7 +30,7 @@ ENV WINEPATH=
 RUN apt update && apt install -y procps
 # Initialize the wine environment. Wait until the wineserver process has
 # exited before closing the session, to avoid corrupting the wine prefix.
-RUN wine wineboot --init && \
+RUN wine wineboot --init && echo lol &&\
     while pgrep wineserver > /dev/null; do sleep 1; done
 RUN cp -r ${WINEPREFIX}/drive_c/windows/system32/ ${WINEPREFIX}/drive_c/windows/syswow64/
 ENV WINEDEBUG=-all
