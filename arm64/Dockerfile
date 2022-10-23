@@ -74,3 +74,9 @@ wget -q https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-
 unzip *.zip && mv cmake*/* . && rm *.zip
 ENV WINEPATH=C:/cmake/bin;${WINEPATH}
 RUN wine cmake --version
+
+RUN cd ${WINEPREFIX}/drive_c/ && mkdir ninja && cd ninja && \
+wget -q https://woastorage.blob.core.windows.net/packages/ninja/ninja_v1.11.1.zip &&\
+unzip *zip && rm *zip
+ENV WINEPATH=C:/ninja/;${WINEPATH}
+RUN wine ninja.exe --version
