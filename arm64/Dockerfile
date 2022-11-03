@@ -16,7 +16,7 @@ ENV PATH=/tmp/llvm-mingw-20220906-ucrt-ubuntu-18.04-aarch64/bin:$PATH
 
 RUN which clang
 
-ENV WINE_VERSION=7.19
+ENV WINE_VERSION=7.20
 RUN cd /tmp && echo "Download wine-${WINE_VERSION}..." && \
     wget -q https://github.com/wine-mirror/wine/archive/refs/tags/wine-${WINE_VERSION}.tar.gz && \
     tar xf wine-${WINE_VERSION}.tar.gz && cd wine-wine-${WINE_VERSION} && \
